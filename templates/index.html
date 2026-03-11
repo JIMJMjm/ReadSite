@@ -7,8 +7,6 @@
     <title>Let's Read!</title>
     <link rel="stylesheet" href="{% static 'css/common.css' %}">
     <style>
-        a { text-decoration: none; color: inherit; }
-
         /* --- 容器与通用样式 --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 80vh;}
         
@@ -144,7 +142,7 @@
                 
                 <form action="{% url 'logout' %}" method="post" style="display: inline;">
                     {% csrf_token %}
-                    <button type="submit" class="nav-link btn-outline" style="background:transparent; cursor:pointer; font-size: 12px;">退出</button>
+                    <button type="submit" class="nav-link btn-outline">退出</button>
                 </form>
             {% else %}
                 <a href="{% url 'login' %}" class="nav-link btn-outline">登录</a>
