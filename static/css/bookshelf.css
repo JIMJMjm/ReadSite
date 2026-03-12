@@ -1,7 +1,7 @@
 /* 书架网格 */
 .shelf-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 电脑端 3 列 */
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     max-width: 1200px;
     margin: 40px auto;
@@ -13,10 +13,10 @@
     background: white;
     border-radius: 10px;
     overflow: hidden;
-    display: flex; /* Flex 布局：左图右文 */
+    display: flex;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: opacity 0.3s ease, transform 0.3s ease;
-    height: 180px; /* 固定高度 */
+    height: 180px;
 }
 
 .card-cover {
@@ -43,7 +43,7 @@
 /* 书签网格 */
 .mark-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 电脑端 6 列 */
+    grid-template-columns: repeat(6, 1fr);
     gap: 20px;
     max-width: 1200px;
     margin: 40px auto;
