@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <title>书籍详情 - {{ book.title }}</title>
     <link rel="stylesheet" href="{% static 'css/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/book_detail.css' %}">
@@ -17,8 +18,8 @@
             </form>
         </div>
 
-        <div class="nav-center site-title">
-            Let's Read!
+        <div class="nav-center">
+            <a href="{% url 'index' %}" class="site-title">Let's Read!</a>
         </div>
 
         <div class="nav-right">

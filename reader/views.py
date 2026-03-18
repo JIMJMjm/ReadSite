@@ -334,6 +334,9 @@ def show_library(request):
             Q(author__icontains=query)
         )
 
+    booklist = [{'book': item,
+                 'shelved': Bookshelf.objects.filter(user=request.user, book=item.id).exists() if request.user.is_authenticated else False} for item in booklist]
+
     content = {'booklist': booklist,
                'search_query': query}
     return render(request, 'library.html', content)

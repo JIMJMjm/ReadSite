@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <title>全部图书</title>
     <link rel="stylesheet" href="{% static 'css/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/bookshelf.css' %}">
@@ -23,13 +24,19 @@
         </div>
 
         <div class="nav-right">
-            <span>你好, <a href="{% url 'profile' %}" class="nav-link" style="font-weight: bold;">{{ user.username }}</a></span>
-            <span style="opacity: 0.5">|</span>
+            {% if user.is_authenticated %}
+                <span>你好, <a href="{% url 'profile' %}" class="nav-link" style="font-weight: bold;">{{ user.username }}</a></span>
+                <span style="opacity: 0.5">|</span>
+                <a href="{% url 'my_bookshelf' %}" class="nav-link">我的书架</a>
 
-            <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn-outline">退出</button>
-            </form>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link btn-outline">退出</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link btn-outline">登录</a>
+                <a href="{% url 'signup' %}" class="nav-link btn-outline">注册</a>
+            {% endif %}
         </div>
     </nav>
 
@@ -46,10 +53,10 @@
 
     <div class="shelf-grid">
         {% for item in booklist %}
-        <div class="shelf-card" id="card-book-{{ item.id }}">
-            <a href="{% url 'book_detail' item.id %}" target="_blank">
-                {% if item.cover %}
-                <img src="{{ item.cover.url }}" class="card-cover">
+        <div class="shelf-card" id="card-book-{{ item.book.id }}">
+            <a href="{% url 'book_detail' item.book.id %}" target="_blank">
+                {% if item.book.cover %}
+                <img src="{{ item.book.cover.url }}" class="card-cover">
                 {% else %}
                 <div class="card-cover" style="display:flex; align-items:center; justify-content:center; color:#999; font-size:12px;">无封面</div>
                 {% endif %}
@@ -57,16 +64,24 @@
 
             <div class="card-info">
                 <div>
-                    <div class="card-title-global">{{ item.title }}</div>
-                    <div class="card-author-global">{{ item.author }}</div>
+                    <div class="card-title-global">{{ item.book.title }}</div>
+                    <div class="card-author-global">{{ item.book.author }}</div>
                     <div class="card-tags"> <ul>
-                        {% for tag in item.tags %}
-                            <li>{{ tag }}</li>
+                        {% if item.book.tags %}
+                            <li>标签:</li>
+                        {% endif %}
+                        {% for tag in item.book.tags|slice:":4" %}
+                            {% if forloop.counter == item.book.tags|length %}
+                                <li>{{ tag }}</li>
+                            {% else %}
+                                <li>{{ tag }},</li>
+                            {% endif %}
                         {% endfor %}
                     </ul></div>
                 </div>
 
                 <div class="btn-row">
+
                 </div>
             </div>
         </div>
