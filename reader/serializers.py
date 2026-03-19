@@ -43,6 +43,9 @@ class BookSerializer(serializers.ModelSerializer):
                     if tag_name:
                         processed_tags.append(tag_name)
             
+            processed_tags = list(dict.fromkeys(processed_tags))
+            processed_tags = processed_tags[:6]
+
             tag_objs = []
             for name in set(processed_tags):
                 tag_obj, created = Tag.objects.get_or_create(name=name)

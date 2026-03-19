@@ -25,6 +25,7 @@
         <div class="nav-right">
             <span>你好, <a href="{% url 'profile' %}" class="nav-link" style="font-weight: bold;">{{ user.username }}</a></span>
             <span style="opacity: 0.5">|</span>
+            <a href="{% url 'my_bookshelf' %}" class="nav-link">我的书架</a>
             
             <form action="{% url 'logout' %}" method="post" style="display: inline;">
                 {% csrf_token %}

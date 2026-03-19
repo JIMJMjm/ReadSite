@@ -1,6 +1,21 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, m2m_changed
 from django.dispatch import receiver
+from django.core.exceptions import ValidationError
 from .models import Book, Chapter, Illustration
+
+@receiver(m2m_changed, sender=Book.tags.through)
+def limit_book_tags(sender, instance, action, pk_set, **kwargs):
+    """
+    限制每本书最多只能绑定 6 个标签。
+    适用于所有途径：API、Django Admin、ORM。
+    """
+    if action == "pre_add":
+        current_count = instance.tags.count()
+        add_count = len(pk_set)
+        
+        # 如果当前数量 + 准备新增的数量超过 6，则抛出验证错误
+        if current_count + add_count > 6:
+            raise ValidationError(f"一本书最多只能绑定 6 个标签！当前已有 {current_count} 个，尝试新增 {add_count} 个。")
 
 @receiver(post_delete, sender=Book)
 def auto_delete_cover_on_delete(sender, instance, **kwargs):
